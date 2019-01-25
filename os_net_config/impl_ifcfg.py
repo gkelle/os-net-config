@@ -348,7 +348,21 @@ class IfcfgNetConfig(os_net_config.NetConfig):
         elif isinstance(base_opt, objects.NfvswitchInternal):
             data += "TYPE=NFVSWITCHIntPort\n"
         elif isinstance(base_opt, objects.IbInterface):
-            data += "TYPE=Infiniband\n"
+            data += "TYPE=InfiniBand\n"
+            if base_opt.pkey_id:
+              data += "PKEY=yes\n"
+              if base_opt.device:
+                data += "PHYSDEV=%s\n" % base_opt.device
+              else:
+                data += "PHYSDEV=%s\n" % re.sub(r"\..*","",base_opt.name)
+              data += "PKEY_ID=%s\n" % base_opt.pkey_id
+            if base_opt.connected_mode:
+              if type(base_opt.connected_mode) is bool:
+                if base_opt.connected_mode:
+                  base_opt.connected_mode = 'yes'
+                else:
+                  base_opt.connected_mode = 'no'
+              data += "CONNECTED_MODE=%s\n" % base_opt.connected_mode
             if base_opt.ethtool_opts:
                 data += "ETHTOOL_OPTS=\"%s\"\n" % base_opt.ethtool_opts
         elif re.match('\w+\.\d+$', base_opt.name):

@@ -1263,6 +1263,12 @@ definitions:
                 $ref: "#/definitions/bool_or_param"
             ethtool_opts:
                 $ref: "#/definitions/string_or_param"
+            device:
+                $ref: "#/definitions/string_or_param"
+            connected_mode:
+                $ref: "#/definitions/bool_or_param"
+            pkey_id:
+                $ref: "#/definitions/string_or_param"
             # common options:
             use_dhcp:
                 $ref: "#/definitions/bool_or_param"

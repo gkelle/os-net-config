@@ -1110,7 +1110,7 @@ class IbInterface(_BaseOpts):
                  routes=None, mtu=None, primary=False, nic_mapping=None,
                  persist_mapping=False, defroute=True, dhclient_args=None,
                  dns_servers=None, nm_controlled=False, onboot=True,
-                 ethtool_opts=None):
+                 ethtool_opts=None, pkey_id=None, connected_mode=None, device=None):
         addresses = addresses or []
         routes = routes or []
         dns_servers = dns_servers or []
@@ -1120,13 +1120,19 @@ class IbInterface(_BaseOpts):
                                           defroute, dhclient_args, dns_servers,
                                           nm_controlled, onboot)
         self.ethtool_opts = ethtool_opts
+        self.connected_mode = connected_mode
+        self.pkey_id = pkey_id
+        self.device = device
 
     @staticmethod
     def from_json(json):
         name = _get_required_field(json, 'name', 'IbInterface')
         ethtool_opts = json.get('ethtool_opts', None)
+        connected_mode = json.get('connected_mode', None)
+        pkey_id = json.get('pkey_id', None )
+        device = json.get('device', None )
         opts = _BaseOpts.base_opts_from_json(json)
-        return IbInterface(name, *opts, ethtool_opts=ethtool_opts)
+        return IbInterface(name, *opts, ethtool_opts=ethtool_opts, connected_mode=connected_mode, pkey_id=pkey_id, device=device)
 
 
 class OvsDpdkPort(_BaseOpts):
